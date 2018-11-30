@@ -505,7 +505,7 @@ A komponenseket ugyan megterveztük, de rengeteg kérdés merül fel azzal kapcs
 Az első és legfontosabb kérdés, hogy hogyan fogja látni az egyik böngésző, hogy mi történik a másikban, pl. ha lép a játékos, hogyan jut át az információ? Ahogy egy pincér egy jó étteremben, a szerver (pincér) kiszolgál, a kliens pedig rendel. Tehát minden eseményt vagy kérést a klienst küld el a szervernek, ill. ha a szerverhez befut egy információ, a szerver nem tolakodik a böngészőhöz, hogy átadja az információt, sőt azt sem tudja, hogy a frontendnek szüksége van rá. Ezért az alkalmazásban minden kommunikációt a frontend kezdeményez.
 
 \SubSection{Játék indítása}
-A játék elindításához el kell navigálnunk a játék indítása oldalra. Belépéskor elindul egy időzített funkció, ami 5 másodpercenként ellenőrzi, hogy a játékosnak van -e már aktív játékmenete. Minden ilyen kéréskor a szerver ellenőrzi az adatbázisban, hogy van -e olyan aktív meccs, amelyikben a játékos szerepel. Ez a módszer két okból is előnyös lesz.
+A játék elindításához el kell navigálnunk a \textit{Játék indítása} oldalra. Belépéskor elindul egy időzített funkció, ami 5 másodpercenként ellenőrzi, hogy a játékosnak van -e már aktív játékmenete. Minden ilyen kéréskor a szerver ellenőrzi az adatbázisban, hogy van -e olyan aktív meccs, amelyikben a játékos szerepel. Ez a módszer két okból is előnyös lesz.
 
 Az egyik, hogy előfordulhat, hogy a játékos akarva vagy akaratlanul (internet kimaradás, ügyetlen kattintás, stb.) kilép a játékból. Így, ha tovább szeretne játszani, visszatérhet a játékba, ha pedig nem, akkor is feladni a játékot, mint szó nélkül ott hagyni az ellenfelet, aki a lépésre vár. Természetesen a játéknak érzékelnie kell a tartós távol maradást is. Ebben az esetben a meccsnek vége lesz, és az ellenfél nyer, mintha feladás történt volna.
 
@@ -529,24 +529,27 @@ Backend oldalon:
 	\item És a beérkezett információkat rögzíteni kell az adatbázisban.
 \end{itemize}
 
-Fontend oldalon:
+rFontend oldalon:
 \begin{itemize}
 	\item A várakozó játékos lépési lehetőségét le kell tiltani, a lépő játékosét pedig engedélyezni.
 	\item Frissíteni kell az időtúllépés stopperét.
-	\item Fissíteni kell a pálya állását, és megjeleníteni az utolsó lépést.
+	\item Frissíteni kell a pálya állását, és megjeleníteni az utolsó lépést.
 	\item Ha nyert valaki, akkor befejezni a meccset.
 \end{itemize}
 
 Mindezek alapja ismét egy időzítő funkció, ezúttal azt ellenőrizzük másodpercenként, hogy lépett -e már az ellenfél. Ezt úgy tudja megmondani a szerver, hogy megnézi az adatbázisban, hogy az elmentett meccs körének száma nagyobb -e már, mint amikor ő lépett, vagy hogy lejárt-e a megengedett idő az ellenfél lépésére. Ha az ellenfél még nem lépett, újra meghívódik, ha lépett, vagy az ideje lejárt, az időzítő leáll, és a visszakapott adatokból kinyerjük a meccs frissítéséhez szükséges információkat. Ezek alapján el tudja végezni a fent említett funkciókat.
 
 \SubSection{Játék vége}
-Egy meccset több féle képpen be lehet fejezni, törénhet feladás, nyerés, vagy időtúllépés. A különbség, hogy mi váltja ki. Feladáskor a játékos a feladás gombra kattint, és egy kérést küld a szervernek a játék befejezésére. Ebben az esetben a játékos veszít. Nyerés esetén a szerver maga állapítja meg a játék befejezését.
+Egy meccset több féle képpen be lehet fejezni, történhet feladás, nyerés, vagy időtúllépés. A különbség, hogy mi váltja ki. Feladáskor a játékos a feladás gombra kattint, és egy kérést küld a szervernek a játék befejezésére. Ebben az esetben a játékos veszít. Nyerés esetén a szerver maga állapítja meg a játék befejezését.
+
 Amiben mind egyezik, az az, ahogy a szerver lekezeli. Az aktív meccset szokás szerint frissíti, de ezúttal beállítja a nyertest is. Ezután létre hozza vagy frissíti a megfelelő adatokat az adatbázis lejátszott meccseket tartalmazó táblájában. Itt minden sor egy-egy felhasználó egy napi eredményeit tartalmazza egy adott játék típusban. Ezen tábla alapját állítja össze a szerver a statisztikai adatokat.
+
+Mivel a játék indítás oldal úgy van megtervezve, hogy átvigye a játékost a játéktérre, ha aktív meccse van, így meccs végeztével nem árt kitörölni az aktív meccset az adatbázisból, hogy újat tudjon később kezdeni. De mikor és hogyan lehet ezt megvalósítani? Az adatforgalom a frontend és a szerver között aszinkron folyamat, és mindkét játékosnál meg kell jeleníteni az eredményt, addig bent kell tartani az adatbázisban. De honnan tudja a szerver, hogy mikor törölheti? Bevezethetünk egy mezőt az adatbázisba, de plusz mezők tárolása helyett inkább megváltoztattam a játék indítás oldal aktív meccs ellenőrzését. Ezután ha talál olyan játékot, amelyben a játékos szerepel, megnézi azt is, hogy van -e már nyertes a játékban. Ha van, törli az aktív meccset, és a felhasználót a \textit{Játék indítása} oldalon hagyja, hogy új játékot kezdhessen.
 
 \Section{Authentikáció}
 
 \SubSection{Token használat}
-Mi lenne, ha nem lenne munkamenetünk, vagy ismertebb nevén sessionünk?
+Mi lenne, ha nem lenne munkamenetünk, vagy ismertebb nevén, sessionünk?
 
 A weboldalak a HTTP alapjain nyugszanak. Egy kérés, egy válasz. Ha egy erőforrást el akarunk érni, intézünk egy kérést a szerverhez, amire válaszként megkapunk egy HTML dokumentumot. Vagy egy képet. Vagy egy videót. 
 A probléma ott van, hogy a szerver nem tudja ezeket a lekérdezéseket egymáshoz kapcsolni. Nem tudja azt, hogy aki az előző lekérdezésben a helyes jelszót küldte, az ugyanaz az ember, aki most a szupertitkos fájlokhoz hozzá szeretne férni.

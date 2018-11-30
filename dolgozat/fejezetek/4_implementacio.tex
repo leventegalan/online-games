@@ -74,17 +74,31 @@ Az \ref{fig:jwt} ábra jobb oldalán láthatjuk egy token tartalmát részekre b
 A token fő szerepe az alkalmazásban az azonosítás, és ezáltal a jogosultságok ellenőrzése. A tokent a felhasználó bejelentkezéskor kapja meg, majd minden kérés során elküldi a headerben. Így visszafejtés után a szerver azonosítani tudja a felhasználót, és ellenőrizni tudja a jogosultságát. Ezekre az ellenőrzésekre szükség lehet például, amikor a felhasználó az alkalmazás egy másik oldalára lép, vagy ha a játék során beérkezik egy lépés. A JavaScript futása manipulálható, ezért a szervernek fokozottan kell ellenőrizni a küldő kilétét.
 
 \Section{Backend}
-\texttt{}
+Ebben a fejezetben az alkalmazásból kiemelt kódrészletek segítségével szeretném bemutatni, hogy hogyan is néz ki egy-egy szerver oldali komponens. A rétegeket fentől lefelé haladva mutatom be.
+
+Fontos kiemelni, hogy az ilyen Javas, Springes alkalmazásokban jellemzően először minden osztályhoz írnak egy Java interfész osztályt, amelyből az implementációkat leszármaztatják. Ez azért jó, mert jelentősen megkönnyíti a komponensek cserélhetőségét. A cserének csupán annyi a feltétele, hogy az új komponens implementálja az interfészt, (ez biztosítja, hogy az új komponens át tudja venni a régi helyét), és regisztrálva legyen a rendszerben (annotációk vagy XML konfiguráció segítségével). Továbbá az annotációk és az interfészeknek köszönhetően nincs szükséges nekünk megadnunk példányosításkor a dinamikus típust, hanem a rendszer maga felismeri az implementáló osztályt. Ennek köszönhetően sokkal kevesebb helyen kell beleírni az alkalmazásba csere esetén, ami jelentősen csökkenti a hibák előfordulásának számát.
+
+A kódrészleteken keresztül végig követhetjük, hogyan kommunikálnak egymással a rétegek, hogyan ellenőrzi a szerver, hogy a felhasználó, akinek az azonosítóját paraméterként megkapta, jogosult -e új játék kezdésére.
+
+\SubSection{Kontroller réteg}
+A kontroller réteg feladata a kommunikáció, tehát fogadja a kérést, szükség esetén ellenőrzi a paramétereket és a kérés küldőjét, majd átadja a szolgáltatás rétegnek feldolgozásra. A visszakapott értéket visszaküldi a feladónak válaszként, \ref{lst:controller} ábra.
+\lstinputlisting[caption={\textit{Egy kontroller osztály szerkezete}}, label={lst:controller}]{kodok/java/controller.java}
+
+\SubSection{Szolgáltatás réteg}
+A szolgáltatás réteg feldolgozza és összeállítja az adatokat. A szükséges adatbázis műveletekhez meghívja az adatbázis hozzáférési réteg metódusait, \ref{lst:service} ábra.
+\lstinputlisting[caption={\textit{Egy szolgáltatás osztály szerkezete}}, label={lst:service}]{kodok/java/service.java}
+
+\SubSection{Adat hozzáférési réteg}
+Az adat hozzáférési réteg feladata a kapcsolat felvétele az adatbázissal, lekérések, tartalom módosítása, adatkonverziók elvégzése, és az eredmény visszaküldése a szolgáltatás rétegnek,  \ref{lst:dao} ábra.
+\lstinputlisting[caption={\textit{Egy adat hozzáférési osztály szerkezete}}, label={lst:dao}]{kodok/java/dao.java}
+
+\SubSection{Nyerés ellenőrzés}
+A \ref{lst:win-check}. ábrán az amőba nyerés ellenőrzésének implementációját láthatjuk.
+\lstinputlisting[caption={\textit{Az amőba győzelem ellenőrzésének implementálása}}, label={lst:win-check}]{kodok/java/win-check.java}
 
 \Section{Frontend}
 
-\SubSection{Nyerés ellenőrzés}
-
-Minden érvényes karakter lerakás után ellenőrizni kell, hogy a játékos nem nyert -e. Ennek implementációját mutatja a \ref{lst:fiveinarow-checkwin} ábra.
-
-\lstinputlisting[caption={\textit{/match/checkstart kérés és válasz minta}}, label={lst:fiveinarow-checkwin}]{kodok/javascript/fiveinarow-checkwin.js}
-
-
+\Section{Játékállapotok kezelése}
 
 
 
