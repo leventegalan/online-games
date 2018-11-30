@@ -1,0 +1,35 @@
+Csomagoljuk ki az online-games.zip fájlt a kívánt helyre!
+
+Töltsünk le az Apache TomCat oldaláról a TomCat alkalmazás szerver 9.0.4 verzióját!
+Csomagoljuk ki a letöltött fájt, és másoljuk a kívánt helyre!
+Végezzük el az alábbi módosításokat a TomCat conf könyvtárában:
+Adjuk a tomcat-users.xml fájl végét jelző tag elég az alábbi szöveget:
+	<role rolename="manager-gui"/>
+	<user username="admin" password="password" roles="manager-gui"/>
+A server.xml fájlban módosítsuk a Connector tagben található port paramétert 9000-re.
+Navigáljunk a TomCat alkalmazás szerver bin mappájába, majd indítsuk el a startup.bat fájlt, (linux esetén startup.sh).
+
+Töltsük le a MySQL holnapjáról a Workbench alkalmazás 8.0 CE verzióját, és telepítsük!
+Hozzunk létre egy új kapcsolatot (connection) az alábbi adatokkal:
+Connection Name: online_games
+Hostname: 127.0.0.1
+Port: 3306
+Username: og_manager
+Password: onlinegames
+Connection Method: Standard (TCP/IP)
+Csatlakozzunk a létrehozott Connectionhöz.
+Futtassuk le a játék mappájában az sql mappában található create-db.sql és fill-db.sql fájlokat.
+Győződjünk meg róla, hogy fut az adatbázis szerver (Workbench, Server menü, Server status).
+Ha nem fut a szerve, indítsuk el.
+
+A játék mappájában (online-games) találunk egy deployer.cmd fájlt. Nyissuk meg egy szövegszerkesztőben, majd állítsuk be a könyvtárak elérési útvonalait a számítógépünknek megfelelően, majd mentsük el.
+server_dict: Az a mappa, ahol a játk mappájában taláható pom.xml fájl található.
+tomcat_dict: A TomCat alkalmazás szerver webapps mappája, ide kerül a fordítás során generált .war file.
+war_file: A keletkező .war file elérési útvonala, ami a játék (online-games) mappa target könyvátárában található.
+tomcat_file: A tomcat_dict változóban megadott mappában található .war file elérési útvonala, (ha létezik).
+Nyissunk egy konzolt, majd navigáljunk a játék mappájába, majd futtassuk le a deployer.cmd fájlt.
+
+Ekkor a program lefordul, és a keletkezett .war fájlt bemásolja a TomCat alkalmazás szerver webapp mappájába. Ezután a TomCat automatikusan feldolgozza a fájt, amelyet nyomon követhetünk a futó startup program konzoljában. Amint a TomCat végzett vele, a játék használatra kész.
+
+Ezek után a játék a http://localhost:9000/online-games/WebContent/index.html#!/login címen válik elérhetővé böngészőből.
+Minden használatkor győződjünk meg, hogy fut az adatbázis szerver és a TomCat szerver!
