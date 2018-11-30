@@ -1,0 +1,21 @@
+
+#credits .left-space {
+    margin-left: 20px;
+    line-height: 1.6;
+}
+
+#credits .left-space-big {
+	width: 750px;
+    margin-left: 50px;
+    line-height: 1.6;
+}
+
+#credits .list {
+    margin-left: 150px;
+    line-height: 1.6;
+}
+
+#credits ul {
+  list-style-type: none;
+    line-height: 1.6;
+}

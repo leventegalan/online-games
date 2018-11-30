@@ -77,10 +77,7 @@ public class MatchController {
     // ACCEPT AND START NEW MATCH
     @RequestMapping(value = "/match/start", method = RequestMethod.POST)
 	@ResponseBody
-	public MatchActive start(@RequestBody MatchStartRq req) {
-    	
-    	// System.out.println(req.toString());
-    	
+	public MatchActive start(@RequestBody MatchStartRq req) {    	
     	MatchActive match = matchService.startMatch(req);
     	return match;
 	}

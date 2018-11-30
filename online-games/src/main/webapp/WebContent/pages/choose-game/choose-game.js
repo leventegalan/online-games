@@ -163,16 +163,9 @@ controllers.controller('ChooseGameController', [
 		}
 
 		vm.acceptChallange = function() {
-			// var data = {
-			// 		userid: $localStorage.currentUser.userid,
-			// 		matchId: vm.selectedMatchId
-			// };
-
 			$http.post(baseUrl + '/match/start', {
-				// params : {
 					userid: $localStorage.currentUser.userid,
 					matchId: vm.selectedMatchId
-				// }
 			})
 			.then(function(result){
 				var match = result.data;

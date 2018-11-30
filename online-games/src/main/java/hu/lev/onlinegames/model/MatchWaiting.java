@@ -70,9 +70,9 @@ public class MatchWaiting {
 	// toString
 	@Override
 	public String toString() {
-		return "NewMatch [id=" + id 
+		return "MatchWaiting [id=" + id 
 				+ ", userid=" + user 
-				+ ", gameType=" + gameType 
+				+ ", gameType=" + gameType.getGameTypeName() 
 				+ ", options=" + options
 				+ "]";
 	}

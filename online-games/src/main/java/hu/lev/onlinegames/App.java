@@ -12,96 +12,9 @@ import hu.lev.onlinegames.persist.MatchDaoImpl;
 
 public class App {
 	public static void main(String[] args) {
+		
 
-//		boolean win = false;
-//		int player = 2; 
-//		FiveInARowAction action = new FiveInARowAction(4,4,2);
-//		FiveInARowField[][] fields = new FiveInARowField[25][25];
-//		
-//		for (int i = 0; i < fields.length; i++) {
-//			fields[i] = new FiveInARowField[25];
-//			for (int j = 0; j < fields[i].length; j++) {
-//				fields[i][j] = new FiveInARowField();
-//			}
-//		}
-//		
-//		fields[4][2].setValue(2);
-//		fields[4][3].setValue(2);
-//		fields[4][4].setValue(2);
-//		fields[4][5].setValue(2);
-//		fields[4][6].setValue(2);
-//		
-//
-//		int startX = action.getX() - 4;			// init min and max indexes, so we check fields in board
-//		int startY = action.getY() - 4;
-//		int endX = action.getX() + 4;
-//		int endY = action.getY() + 4;
-//		
-//		System.out.println("startX: " + startX);
-//		System.out.println("startY: " + startY);
-//		System.out.println("endX: " + endX);
-//		System.out.println("endY: " + endY);
-//		
-//		// diagonals first, there is a bigger chance to win this way, save some energy
-//		// diagonal from top-left
-//		int lengthSoFar = 0;
-//		for(int i = startX, j = startY; i<=endX && j<=endY; i++){
-//			if (i >= 0 && i < fields.length && j >= 0 && j < fields[0].length){
-//				if (fields[i][j].getValue() == player){
-//					lengthSoFar++;
-//				} else if (lengthSoFar < 5){
-//					lengthSoFar = 0;
-//				}
-//			}
-//			j++;
-//		}
-//		if (lengthSoFar >= 5){ win = true; }
-//
-//		// diagolal from bottom-left
-//		lengthSoFar = 0;
-//		for(int i = startX, j = endY; i<=endX && j>=startY; i++){
-//			if (i >= 0 && i < fields.length && j >= 0 && j < fields[0].length){
-//				if (fields[i][j].getValue() == player){
-//					lengthSoFar++;
-//				} else if (lengthSoFar < 5){
-//					lengthSoFar = 0;
-//				}
-//			}
-//			j--;
-//		}
-//		if (lengthSoFar >= 5){ win = true; }
-//
-//		// vertical
-//		lengthSoFar = 0;
-//		for(int j=startY; j<=endY ; j++){
-//			if (j >= 0 && j < fields[0].length){
-//				System.out.println(fields[action.getX()][j].getValue());
-//				if (fields[action.getX()][j].getValue() == player){
-//					lengthSoFar++;
-//				} else if (lengthSoFar < 5){
-//					lengthSoFar = 0;
-//				}
-//			}
-//		}
-//		if (lengthSoFar >= 5){ win = true; }
-//
-//		// horizontal
-//		lengthSoFar = 0;
-//		for(int i=startX; i<=endX ; i++){
-//			if (i >= 0 && i < fields.length){
-//				if (fields[i][action.getY()].getValue() == player){
-//					lengthSoFar++;
-//				} else if (lengthSoFar < 5){
-//					lengthSoFar = 0;
-//				}
-//			}
-//		}
-//		if (lengthSoFar >= 5){ win = true; }
-//
-//		System.out.println(win);
-//		// no winning found
-//		win = false;
-
+		
 	}
 }
 

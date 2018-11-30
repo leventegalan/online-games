@@ -62,13 +62,9 @@ public class MatchServiceImpl implements MatchService {
 		MatchActive matchActive = null;
 		MatchWaiting matchWaiting = matchDao.getMatchWaiting(req.getMatchId());
 		int [] options = converterService.stringToIntArray(matchWaiting.getOptions());
-		for (int i : options) {
-			// System.out.println(i);
-		}
 		
 		String initFields = initFields(
 				matchWaiting.getGameTypeId().getGameTypeId(), options);
-		
 		if(matchWaiting != null) {
 			int id = matchDao.createAndInsertMatchActive(req.getUserid(), matchWaiting, initFields);
 			if(id > 0) {

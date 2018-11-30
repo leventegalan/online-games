@@ -161,7 +161,6 @@ public class FiveInARowServiceImpl implements FiveInARowService {
 	@Override
 	public String initFields(int[] options) {
 		FiveInARowField[][] fields = new FiveInARowField[25][25];
-		
 		for (int i = 0; i < fields.length; i++) {
 			fields[i] = new FiveInARowField[25];
 			for (int j = 0; j < fields[i].length; j++) {
@@ -175,7 +174,6 @@ public class FiveInARowServiceImpl implements FiveInARowService {
 		if (ArrayUtils.contains(options, 2)){
 			fields = initWalls(fields);
 		}
-
 		String boardstate = "";
 		ObjectMapper mapper = new ObjectMapper();
 		try {
