@@ -148,9 +148,9 @@ function reload(initMatch, match, board, ctx){
 
 	if(match.win && match.win > 0){
 		if(match.win == 1){
-			$localStorage.currentUser.userid == match.players.player1.id ? winMsg = "Gratulálok, nyertél!" : winMsg = "Sajnos vesztettél!";
+			$localStorage.currentUser.userid == match.players.player1.id ? winMsg = "Gratulalok, nyertel!" : winMsg = "Sajnos vesztettel!";
 		} else {
-			$localStorage.currentUser.userid == match.players.player2.id ? winMsg = "Gratulálok, nyertél!" : winMsg = "Sajnos vesztettél!";
+			$localStorage.currentUser.userid == match.players.player2.id ? winMsg = "Gratulalok, nyertel!" : winMsg = "Sajnos vesztettel!";
 		}
 		alert(winMsg);
 		$state.go('welcome');
