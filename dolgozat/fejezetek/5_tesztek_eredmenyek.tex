@@ -6,3 +6,53 @@
 % Érdekesebb esetekre példák képernyőképekkel
 % Teljesítmény, terhelhetőség vizsgálata
 % Egységtesztekre vonatkozóan legalább javaslatok
+
+\Section{Teszt alapú fejlesztés}
+
+Egy alkalmazás elkészítésekor fontos szempont a minőségbiztosítás. Erre manapság rengeteg fejlesztési modellt kitaláltak, melyeknek szerves része a tesztelés. Legtöbb esetben a fejlesztés sorrendje több-kevesebb eltéréssel: tervezés, fejlesztés, tesztelés. Ennek egyik nagy hátránya, hogy ebben a szakaszban már sokkal nehezebb javítani egy hibát, mint az elején, hiszen ekkorra már sokkal nagyobb lehet a program, nehezebb átlátni, és a függőségek miatt több helyen kell változtatni a kódon, nem is beszélve a plusz költségekről. 
+
+Rendkívül fontos tehát a tesztelés minél korábbi elkezdése, sőt, a teszt alapú tervezés. Ez úgy történik, hogy megállapítjuk a feature-öket, vagyis az elvárt funkciókat. Ezek általában már önmagukban is túl nagyok, hogy egyben írják meg, így kisebb részegységekre kell bontani. Ezekhez az egységekhez pontosan megfogalmazott, elfogadhatósági kritériumokat kell állítani. Ezen kritériumok alapján pedig meghatározatók, sőt, el is készíthetők a tesztek is már a tervezés legelején.
+
+Amikor tesztekről beszélünk, főleg a tervezés elején, elsősorban automatizált tesztekről beszélünk. Ennek több előnye is van. Lássunk is néhányat a tervezés korai szakaszában megírt automatizált tesztek előnyei közül a teljesség igénye nélkül:
+\begin{itemize}
+	\item A tesztek kivitelezéséhez az elkészítés után nincs szükség emberi erőforrásra.
+	\item Kevesebb hiba lehetőség a tesztelés során.
+	\item Korán felismerhető, így gyorsabban, olcsóbban javítható hibák.
+	\item A tesztek minden kódváltoztatás után, fordításkor automatikusan lefutnak.
+	\item Információt szolgáltathatnak a feature-ök, komponensek komplexitásáról, a fejlesztéshez szükséges időről és egyéb erőforrásokról. Azokat a funkciókat, amelyekre nehéz tesztet írni, jó eséllyel lefejleszteni is bonyolult lesz.
+\end{itemize}
+
+Ezt a tesztelési módszertant acceptance-test-driven developmentnek (ATDD), azaz magyarítva kb. átvételi vizsgálatokon alapuló fejlesztésnek hívják. \cite{atdd}
+
+\Section{Tesztelés az alkalmazásban}
+
+Habár az alkalmazásomba nem kerültek be automatizált tesztek, fontos szempont volt, hogy egy-egy nagyobb egység is kisebb, önmagukban is tesztelhető egységekből épüljön fel. Ezt az elvet főként az amőba frontendes direktíva kódjában tekinthetjük meg, ahol a működést kisebb egységekre, függvényekre bontottam, és az alkalmazás többi részében is ez a követendő példa. A függvények csak egy-egy kisebb feladatot látnak el, és pontosan meghatározható, hogy milyen bemenetre milyen kimenetet kell adniuk.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

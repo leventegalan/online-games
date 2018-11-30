@@ -2,13 +2,12 @@ This is BibTeX, Version 0.99dThe top-level auxiliary file: dolgozat.aux
 A level-1 auxiliary file: cimlap/cimlap.aux
 A level-1 auxiliary file: feladatkiiras/feladatkiiras.aux
 A level-1 auxiliary file: fejezetek/1_bevezetes.aux
-A level-1 auxiliary file: fejezetek/2_online_tablas_jatekok.aux
-A level-1 auxiliary file: fejezetek/3_tablas_jatekok_specifikacioja.aux
-A level-1 auxiliary file: fejezetek/4_tervezes.aux
-A level-1 auxiliary file: fejezetek/5_implementacio.aux
-A level-1 auxiliary file: fejezetek/6_tesztek_eredmenyek.aux
-A level-1 auxiliary file: fejezetek/7_osszegzes.aux
-A level-1 auxiliary file: fejezetek/8_bovitesi_lehetosegek.tex.aux
+A level-1 auxiliary file: fejezetek/2_tablas_jatekok_specifikacioja.aux
+A level-1 auxiliary file: fejezetek/3_tervezes.aux
+A level-1 auxiliary file: fejezetek/4_implementacio.aux
+A level-1 auxiliary file: fejezetek/5_tesztek_eredmenyek.aux
+A level-1 auxiliary file: fejezetek/6_osszegzes.aux
+A level-1 auxiliary file: fejezetek/7_bovitesi_lehetosegek.tex.aux
 A level-1 auxiliary file: hasznalat/hasznalat.aux
 The style file: plain.bst
 Database file #1: irodalomjegyzek/irodalom.bib
@@ -21,4 +20,5 @@ Warning--to sort, need author or key in maven
 Warning--to sort, need author or key in tomcat
 Warning--to sort, need author or key in angularjs
 Warning--to sort, need author or key in git
-(There were 9 warnings)
+Warning--to sort, need author or key in atdd
+(There were 10 warnings)
