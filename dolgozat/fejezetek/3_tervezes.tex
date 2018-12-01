@@ -354,7 +354,7 @@ Elsőként a User (felhasználó) osztállyal kell foglalkoznunk, ami minden má
 \lstinputlisting[caption={\textit{A felhasználó modell osztály adattagjai}}, label={lst:user}]{kodok/model/user.json}
 
 \subsubsection{Kihívás modell}
-A kihívás modell a várakozó meccseket reprezentálja, amelyeket a felhasználók hoznak létre. Tartalma a kihívás azonosítója, a felhasználó azonosítója, a játék típusa, és egy tömbben a kiválasztott beállítások. (\ref{lst:match_waiting} ábra).
+A kihívás modell a várakozó meccseket reprezentálja, amelyeket a felhasználók hoznak létre. Tartalma a kihívás azonosítója, a felhasználó azonosítója, a játék típusa, és egy tömbben a kiválasztott beállítások (\ref{lst:match_waiting} ábra).
 
 \lstinputlisting[caption={\textit{A kihívás modell osztály adattagjai}}, label={lst:match_waiting}]{kodok/model/match_waiting.json}
 
@@ -486,11 +486,6 @@ A komponenseket ugyan megterveztük, de rengeteg kérdés merül fel azzal kapcs
 \SubSection{A backend és a frontend kapcsolata}
 Az első és legfontosabb kérdés, hogy hogyan fogja látni az egyik böngésző, hogy mi történik a másikban, pl. ha lép a játékos, hogyan jut át az információ? Ahogy egy pincér egy jó étteremben, a szerver (pincér) kiszolgál, a kliens pedig rendel. Tehát minden eseményt vagy kérést a klienst küld el a szervernek, ill. ha a szerverhez befut egy információ, a szerver nem tolakodik a böngészőhöz, hogy átadja az információt, sőt azt sem tudja, hogy a frontendnek szüksége van rá. Ezért az alkalmazásban minden kommunikációt a frontend kezdeményez.
 
-A komponenseket ugyan megterveztük, de rengeteg kérdés merül fel azzal kapcsolatban, hogy hogyan fognak ezek a komponensek együtt működni. Hogyan szinkronizáljuk a játék menetét, hogy mindkét játékos (lehetőleg) valós időben lássa a másik lépéseit? Szinkronizáljuk a böngészők eseményeit? Egyáltalán milyen feladatok merülnek fel, amikre a tervezés legelején nem gondolna az ember? Nézzük sorban!
-
-\SubSection{A backend és a frontend kapcsolata}
-Az első és legfontosabb kérdés, hogy hogyan fogja látni az egyik böngésző, hogy mi történik a másikban, pl. ha lép a játékos, hogyan jut át az információ? Ahogy egy pincér egy jó étteremben, a szerver (pincér) kiszolgál, a kliens pedig rendel. Tehát minden eseményt vagy kérést a klienst küld el a szervernek, ill. ha a szerverhez befut egy információ, a szerver nem tolakodik a böngészőhöz, hogy átadja az információt, sőt azt sem tudja, hogy a frontendnek szüksége van rá. Ezért az alkalmazásban minden kommunikációt a frontend kezdeményez.
-
 \SubSection{Játék indítása}
 A játék elindításához el kell navigálnunk a \textit{Játék indítása} oldalra. Belépéskor elindul egy időzített funkció, ami 5 másodpercenként ellenőrzi, hogy a játékosnak van -e már aktív játékmenete. Minden ilyen kéréskor a szerver ellenőrzi az adatbázisban, hogy van -e olyan aktív meccs, amelyikben a játékos szerepel. Ez a módszer két okból is előnyös lesz.
 
@@ -507,6 +502,7 @@ Elfogadott kihívás esetén ezt az objektumot kapják meg a játékosok válasz
 
 \SubSection{Játék közben}
 Ebben a szakaszban a következő szinkronizációs problémákat kell megoldanunk lépés esetén:
+
 Backend oldalon:
 \begin{itemize}
 	\item Ellenőrizni kell a felhasználót, van -e jogosultsága a megadott lépéshez.
@@ -516,7 +512,7 @@ Backend oldalon:
 	\item És a beérkezett információkat rögzíteni kell az adatbázisban.
 \end{itemize}
 
-rFontend oldalon:
+Fontend oldalon:
 \begin{itemize}
 	\item A várakozó játékos lépési lehetőségét le kell tiltani, a lépő játékosét pedig engedélyezni.
 	\item Frissíteni kell az időtúllépés stopperét.
