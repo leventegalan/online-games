@@ -27,6 +27,7 @@
 
 % Architektúra áttekintése
 
+A fejezet bemutatja a játéknak, mint több felhasználós, online elérhető webalkalmazásnak a tervezési folyamatát. Ez tartalmazza az alkalmazással szemben támasztott funkcionális követelményeket.
 
 \Section{Általános funkciók}
 
@@ -39,7 +40,7 @@ Előfordul, hogy a felhasználó elfelejti felhasználónevét vagy jelszavát. 
 \SubSection{Jelszó megváltoztatása (bejelentkezve)}
 A jelszó megváltoztatására lehetőség van bejelentkezett állapotban is. Ez az egyszerűbb eset. A profil ill. beállítások oldalon a "jelszó megváltoztatása" gombra kattintva megjelenik egy űrlap, ahol meg kell adni a régi jelszót, majd az új jelszót kétszer. Az "ok" gombra kattintva az adatok validálódnak, és legközelebb már az új jelszóval léphet be a felhasználó.
 
-\SubSection{Ransorok, szabályzat, készítői információk megtekintése}
+\SubSection{Rangsorok, szabályzat, készítői információk megtekintése}
 Ezek statikus oldalak, melyek információt biztosítanak a felhasználó számára. Interaktivitásra itt nincs lehetőség. A rangsorokat dinamikusabbá lehet tenni, ha lapozós felületet biztosítunk neki, így egyszerre csak egy kiválasztott rangsort jelenít meg.
 A játék során készített statisztikák:
 \begin{itemize}
@@ -66,20 +67,20 @@ Továbbá, ha van kihívásunk a listában, és közben elfogadjuk más kihívá
 \SubSection{Interaktivitás bábúkkal}
 Miután betöltődött a játék, a játékosok felváltva, ún. körönként játszanak. Interaktivitásra a saját körünkben van lehetőségünk a játék szabályoknak megfelelően, pl. egy bábú/karakter elhelyezése a táblán, lépés egy bábuval.
 
-\SubSection{Feladás}
+\SubSection{Játszma feladása}
 Ha a vége előtt ki szeretnénk lépni a játékból, a "feladás" gombra kell kattintatunk. Ebben vége a játéknak, az ellenfél nyer, megjelennek az eredmények, majd visszatérhetünk a "játék indítása" felületre.
 
 % ADATBÁZIS
 
 \Section{Adatbázis}
 
-Az adatbázisban két fontos szereplő típust, illetve azok állapotait kell nyilvántartanunk: a felhasználókat és a játékmeneteket. Habár közöttük is van kapcsolat, elemzés szempontjából szétválasztható kategóriák.
+Az adatbázisban két fontos szereplő típust, illetve azok állapotait kell nyilvántartanunk: a felhasználókat és a játékmeneteket. Habár közöttük is van kapcsolat, külön bemutatható és részletezhetők a sémáik.
 
 \SubSection{Felhasználói adatok}
 A felhasználóhoz tartozó legfontosabb információk, amiket tárolni kell, a felhasználó:
 \begin{itemize}
-	\item felhasználóneve,
-	\item emailcíme,
+	\item felhasználó neve,
+	\item email címe,
 	\item jelszavához tartozó hash kód,
 	\item be van-e jelentkezve.
 \end{itemize}
@@ -143,19 +144,19 @@ Az endpointokat hívhatjuk magyarul végpontoknak is. Egy endpointot tekinthetü
 \SubSection{/user}
 \texttt{POST}: Validálja a felhasználó által megadott értékeket, és elmenti az új profilt az adatbázisba.
 Siker esetén megerősítő üzenetet küld a mentés sikeréről.
-Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{lst:user-save} ábra).
+Sikertelen művelet esetén hibaüzenetet küld a felhasználónak (\ref{lst:user-save} ábra).
 
 \lstinputlisting[caption={\textit{/user POST kérés és válasz minta}}, label={lst:user-save}]{kodok/api/user-save.json}
 
 \texttt{PUT}: Validálja a felhasználó által megadott értékeket, és elmenti az új értékeket az adatbázisba. A felhasználó egyelőre csak a jelszavát tudja megváltoztatni.
 Siker esetén megerősítő üzenetet küld a mentés sikeréről.
-Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{user-update} ábra).
+Sikertelen művelet esetén hibaüzenetet küld a felhasználónak (\ref{lst:user-update} ábra).
 
 \lstinputlisting[caption={\textit{/user PUT kérés és válasz minta}}, label={lst:user-update}]{kodok/api/user-update.json}
 
 \texttt{DELETE}: Validálja a felhasználó által megadott értékeket, (a törléshez szükség van a jelszó megadásához), majd törli a felhasználót az adatbázisból. Gyakran bevett szokás, hogy a felhasználó rekordját valójában nem törlik ki, hanem csak egy plusz mezőben átírják az állapotát aktívról töröltre. Ez főként olyan alkalmazásoknál jelentős, ahol fontos a visszakereshetőség biztosítása akár több évre visszamenőleg is, pl. bankoknál. Esetünkben a felhasználó teljesen törlésre kerül.
 Siker esetén megerősítő üzenetet küld a törlés sikeréről. (Egyúttal illik kiléptetni a felhasználót).
-Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{lst:user-delete} ábra).
+Sikertelen művelet esetén hibaüzenetet küld a felhasználónak (\ref{lst:user-delete} ábra).
 
 \lstinputlisting[caption={\textit{/user DELETE kérés és válasz minta}}, label={lst:user-delete}]{kodok/api/user-delete.json}
 
@@ -169,36 +170,36 @@ Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{lst:us
 \SubSection{/user/forgottenpassword}
 \texttt{POST}: Validálja az adatokat, (ellenőrzi, hogy a felhasználó létezik-e az adatbázisban), majd küld egy megerősítő emailt a felhasználó címére, a linkkel, amin tovább haladva megadhatja új jelszavát.
 Siker esetén elküldi, hogy a validáció sikeres. (Csak ez után jelenik meg az űrlap az új jelszó megadásához).
-Sikertelen művelet esetén hibaüzenet küld a felhasználónak. (\ref{lst:user-forgottenpassword} ábra).
+Sikertelen művelet esetén hibaüzenet küld a felhasználónak (\ref{lst:user-forgottenpassword} ábra).
 
 \lstinputlisting[caption={\textit{/user/forgottenpassword kérés és válasz minta}}, label={lst:user-forgottenpassword}]{kodok/api/user-forgottenpassword.json}
 
 % MATCH
 
 \SubSection{match}
-\texttt{GET}: Ellenőrzi a felhasználót, majd lekérdezi és válaszként elküldi a várakozó meccsek (kihívások) adatainak listáját. (\ref{lst:match-list} ábra).
+\texttt{GET}: Ellenőrzi a felhasználót, majd lekérdezi és válaszként elküldi a várakozó meccsek (kihívások) adatainak listáját (\ref{lst:match-list} ábra).
 
 \lstinputlisting[caption={\textit{/match/list kérés és válasz minta}}, label={lst:match-list}]{kodok/api/match-list.json}
 
 \texttt{POST}: Inicializál egy új kihívást és elmenti az adatbázisba. (Emellett gondoskodni kell róla, hogy a többi felhasználó számára is megjelenjen az új kihívás). A művelet végén visszaküldi a mentés sikerességét.
-Sikertelen művelet esetén hibaüzenet küld a felhasználónak. (\ref{lst:match-create} ábra).
+Sikertelen művelet esetén hibaüzenet küld a felhasználónak (\ref{lst:match-create} ábra).
 
 \lstinputlisting[caption={\textit{/match/create kérés és válasz minta}}, label={lst:match-create}]{kodok/api/match-create.json}
 
 \texttt{DELETE}: Kitöröl egy kihívást és elmenti az adatbázisba. (Emellett gondoskodni kell róla, hogy a többi felhasználó számára is eltűnjön az új kihívás).
 Siker esetén elküldi, hogy a törlés sikeres.
-Sikertelen művelet esetén hibaüzenet küld a felhasználónak. (\ref{lst:match-delete} ábra).
+Sikertelen művelet esetén hibaüzenet küld a felhasználónak (\ref{lst:match-delete} ábra).
 
 \lstinputlisting[caption={\textit{/match/delete kérés és válasz minta}}, label={lst:match-delete}]{kodok/api/match-delete.json}
 
 \SubSection{match/start}
 \texttt{POST}: Akkor hívódik meg, amikor egy játékos elfogad egy kihívást. Megkapja az ezidáig várakozó játszma és a játékos azonosítóját. Lekéri a várakozó játék adatait, létre hozz egy aktív játszmát, amit elment az adatbázisban is, majd törli a várakozó játékot. Ha bármelyik játékosnak volt aktív kihívása, azt törli az adatbázisból.
 Sikeres mentés esetén megerősítésképpen visszaküldi a meccs adatait tartalmazó objektumot.
-Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{lst:match-start} ábra).
+Sikertelen művelet esetén hibaüzenetet küld a felhasználónak (\ref{lst:match-start} ábra).
 
 \lstinputlisting[caption={\textit{/match/start kérés és válasz minta}}, label={lst:match-start}]{kodok/api/match-start.json}
 
-\texttt{GET}: Megkapja a játékos azonosítóját és ellenőrzi, hogy a játékos szerepel -e aktív játékban. Ha a válasz igen, elküldi a meccs adatait tartalmazó objektumot. Ha még nincs játékban, az objektum értéke null. (\ref{lst:match-checkstart} ábra).
+\texttt{GET}: Megkapja a játékos azonosítóját és ellenőrzi, hogy a játékos szerepel-e aktív játékban. Ha a válasz igen, elküldi a meccs adatait tartalmazó objektumot. Ha még nincs játékban, az objektum értéke \texttt{null} (\ref{lst:match-checkstart} ábra).
 
 \lstinputlisting[caption={\textit{/match/checkstart kérés és válasz minta}}, label={lst:match-checkstart}]{kodok/api/match-checkstart.json}
 
@@ -206,39 +207,39 @@ Sikertelen művelet esetén hibaüzenetet küld a felhasználónak. (\ref{lst:ma
 
 \SubSection{/fiveinarow/action}
 \texttt{POST}: Mikor a soron következő játékos elvégzi a lépést (vagy ezzel egyenértékű cselekvést, pl. elhelyez egy csapdát), megkapja a meccs állását és a cselekvés adatait. Ezek segítségével ellenőrzi a lépés helyességét és hogy nyert -e a játékos, majd elmenti az adatbázisba.
-Siker esetén elküldi a kiértékelés eredményét, hogy volt-e nyerés, és sikerült -e a mentés. Ha nem sikerült, hibaüzenetet küld. (\ref{lst:fiveinarow-action} ábra).
+Siker esetén elküldi a kiértékelés eredményét, hogy volt-e nyerés, és sikerült -e a mentés. Ha nem sikerült, hibaüzenetet küld (\ref{lst:fiveinarow-action} ábra).
 
 \lstinputlisting[caption={\textit{/fiveinarow/action kérés és válasz minta}}, label={lst:fiveinarow-action}]{kodok/api/fiveinarow-action.json}
 
 \SubSection{/fiveinarow/checkaction}
-\texttt{GET}: Rendszeres időközönként meghívódik annak ellenőrzésére, hogy az ellenfél "lépett" -e már. Megnézi, hogy az adatbázisban tárolt kör száma nagyobb -e, mint a kapotté. Ha igen, visszaküldi a meccs objektumot, ha nem, akkor az objektum null. (\ref{lst:fiveinarow-checkaction} ábra).
+\texttt{GET}: Rendszeres időközönként meghívódik annak ellenőrzésére, hogy az ellenfél lépett-e már. Megnézi, hogy az adatbázisban tárolt kör száma nagyobb -e, mint a kapotté. Ha igen, visszaküldi a meccs objektumot, ha nem, akkor az objektum \texttt{null} (\ref{lst:fiveinarow-checkaction} ábra).
 
 \lstinputlisting[caption={\textit{/fiveinarow/checkaction kérés és válasz minta}}, label={lst:fiveinarow-checkaction}]{kodok/api/fiveinarow-checkaction.json}
 
 \SubSection{/fiveinarow/timeout}
-\texttt{POST}: Egy játékos inaktivitása esetén kap egy jelzést, majd a kört átadja az ellenfélnek. (\ref{lst:fiveinarow-timeout} ábra).
+\texttt{POST}: Egy játékos inaktivitása esetén kap egy jelzést, majd a kört átadja az ellenfélnek (\ref{lst:fiveinarow-timeout} ábra).
 
 \lstinputlisting[caption={\textit{/fiveinarow/timeout kérés és válasz minta}}, label={lst:fiveinarow-timeout}]{kodok/api/fiveinarow-timeout.json}
 
 \SubSection{/fiveinarow/giveup}
-\texttt{POST}: Megkapja a felhasználó azonosítóját és a meccs objektumot, és elmenti az eredményt a meccs objektumba. Visszatérési értéke a mentés sikeressége. (\ref{lst:fiveinarow-giveup} ábra).
+\texttt{POST}: Megkapja a felhasználó azonosítóját és a meccs objektumot, és elmenti az eredményt a meccs objektumba. Visszatérési értéke a mentés sikeressége (\ref{lst:fiveinarow-giveup} ábra).
 
 \lstinputlisting[caption={\textit{/fiveinarow/giveup kérés és válasz minta}}, label={lst:fiveinarow-giveup}]{kodok/api/fiveinarow-giveup.json}
 
 % STATS
 
 \SubSection{stats/global}
-\texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát. (\ref{lst:stats-global} ábra).
+\texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-global} ábra).
 
 \lstinputlisting[caption={\textit{/stats/global kérés és válasz minta}}, label={lst:stats-global}]{kodok/api/stats-global.json}
 
 \SubSection{stats/globalbygametype}
-\texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát. (\ref{lst:stats-globalbygametype} ábra).
+\texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-globalbygametype} ábra).
 
 \lstinputlisting[caption={\textit{/stats/globalbygametype kérés és válasz minta}}, label={lst:stats-globalbygametype}]{kodok/api/stats-globalbygametype.json}
 
 \SubSection{stats/personal}
-\texttt{GET}: Megkapja a felhasználó azonosítóját, majd lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát. (\ref{lst:stats-personal} ábra).
+\texttt{GET}: Megkapja a felhasználó azonosítóját, majd lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-personal} ábra).
 
 \lstinputlisting[caption={\textit{/stats/personal kérés és válasz minta}}, label={lst:stats-personal}]{kodok/api/stats-personal.json}
 
@@ -248,7 +249,7 @@ Siker esetén elküldi a kiértékelés eredményét, hogy volt-e nyerés, és s
 A készülő alkalmazás felépítésének tervezéskor két szempontot érdemes figyelembe venni: az egyik a HTTP kliens-szerver architektúra, a másik az MVC architektúra.
 
 \SubSection{HTTP kliens-szerver architektúra}
-Minden egyes HTTP protokollt használó kommunikáció esetében van egy kérés és egy válasz. Az ügyfél böngészője egyetlen kérést intéz a szerverhez, amely alapján a szerver meghatározza a kért erőforrást és válaszul visszaküldi a kért állomány tartalmát. Ezt követően az ügyfél böngészője értelmezi a választ és megjeleníti a kapott tartalmat. A kérés az igényelt erőforráson kívül más információkat is tartalmaz. Ilyen információ például az ügyfél böngészőjének a típusa. A kérés általában sima szöveges információ, a válasz pedig lehet szöveg, illetve bináris adat is. \cite{java-web-tech}
+Minden egyes HTTP protokollt használó kommunikáció esetében van egy kérés és egy válasz. Az ügyfél böngészője egyetlen kérést intéz a szerverhez, amely alapján a szerver meghatározza a kért erőforrást és válaszul visszaküldi a kért állomány tartalmát. Ezt követően az ügyfél böngészője értelmezi a választ és megjeleníti a kapott tartalmat. A kérés az igényelt erőforráson kívül más információkat is tartalmaz. Ilyen információ például az ügyfél böngészőjének a típusa. A kérés általában sima szöveges információ, a válasz pedig lehet szöveg, illetve bináris adat is \cite{java-web-tech}.
 
 \SubSection{MVC architektúra}
 %Elsőként a Xerox írta le a 1980-as évek végén, azóta más GUI alkalmazások készítésére alkalmas környezet is átvette ezt a modellt.
@@ -262,14 +263,14 @@ A modell részt rendszerint az adatok és ezek elérési logikája képezi. Ez a
 Az MVC tervezési minta először grafikus interfészek (desktop alkalmazások) készítésével kapcsolatban jelent meg, később alkalmazták például webalkalmazások architektúrájaként is. Webalkalmazások esetében a vezérlési réteg feladata a kérések feldolgozása és továbbítása a megfelelő komponens fele. Így a vezérlési rész felügyeli az alkalmazást, a modell pedig az alkalmazás állapotát tárolja. Összefoglalva, a következő előnyökkel rendelkezik egy MVC architektúrájú alkalmazás:
 \begin{itemize}
 	\item Lehetővé teszi több, különböző megjelenítés illesztését ugyanazon modellhez.
-	\item Szétválasztja az alkalmazás üzleti logika, adatelérés, illetve megjelenítés részeit, amely növeli az alkalmazás rugalmasságát. \cite{java-web-tech}
+	\item Szétválasztja az alkalmazás üzleti logika, adatelérés, illetve megjelenítés részeit, amely növeli az alkalmazás rugalmasságát \cite{java-web-tech}.
 \end{itemize}
 
 \SubSection{Szerkezet összegzés}
 
 A két fent említett szerkezetet alkalmazva az alábbi alkalmazás vázat kapjuk:
 
-A HTTP protokollnak megfelelően először definiáljuk a klienst (fronendet) és a szervert (backendet), majd ezekben helyezzük el az MVC komponenseket. Magától értetődő, hogy a View teljes mértékben a frontend része, a Model, - ami gyakorlatilag az adatbázist és adat kezelő logikát jelenti-, pedig a backendé. Az érdekes rész a Controller, mivel esetünkben a lépéseket és az űrlap adatait mindkét oldalon ellenőrizni kell, így a frontend és a backend is tartalmaz üzleti logikát. (\ref{fig:mixed-arch})
+A HTTP protokollnak megfelelően először definiáljuk a klienst (fronendet) és a szervert (backendet), majd ezekben helyezzük el az MVC komponenseket. Magától értetődő, hogy a View teljes mértékben a frontend része, a Model, - ami gyakorlatilag az adatbázist és adat kezelő logikát jelenti-, pedig a backendé. Az érdekes rész a Controller, mivel esetünkben a lépéseket és az űrlap adatait mindkét oldalon ellenőrizni kell, így a frontend és a backend is tartalmaz üzleti logikát (\ref{fig:mixed-arch}. ábra).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.5\linewidth]{kepek/mixed-arch.png}
@@ -277,10 +278,11 @@ A HTTP protokollnak megfelelően először definiáljuk a klienst (fronendet) é
 	\label{fig:mixed-arch}
 \end{figure}
 
-\Section{Backend}
+\Section{Backend felépítése}
 
-\SubSection{Rétegek}
-A backend vagy más néven szerver, egy kiszolgáló alkalmazás, amelyet (első sorban) webböngészővel érhetünk el. Feladata a kliens (frontend) által küldött adatok feldolgozása, majd a megfelelő válasz, ill. erőforrás visszaküldése. Mint általában a szoftvereknél, a szerver alkalmazást is érdemes jól elkülöníthető rétegekre bontani, melyet a \ref{fig:server-layers} ábra szemléltet.
+\SubSection{Réteges architektúra}
+
+A \textit{backend} vagy más néven szerver oldali alkalmazás, egy kiszolgáló alkalmazás, amelyet (első sorban) webböngészővel érhetünk el. Feladata a kliens (frontend) által küldött adatok feldolgozása, majd a megfelelő válasz, ill. erőforrás visszaküldése. Mint általában a szoftvereknél, a szerver alkalmazást is érdemes jól elkülöníthető rétegekre bontani, melyet a \ref{fig:server-layers} ábra szemléltet.
 
 \begin{figure}[!h]
 	\centering
@@ -375,18 +377,20 @@ Az amőba játékállás reprezentálását már a \ref{board-repr} pontban tár
 
 \subsubsection{Lejátszott játék modell}
 %TODO match done pontosítani!!!
-A statisztikák generálásához szükséges megőriznünk a játékeredményeket. (\ref{lst:match_done} ábra).
+A statisztikák generálásához szükséges megőriznünk a játékeredményeket (\ref{lst:match_done} ábra).
 
 \lstinputlisting[caption={\textit{A lejátszott játék modell osztály adattagjai}}, label={lst:match_done}]{kodok/model/match_done.json}
 
-\subsubsection{Enumok}
+\subsubsection{Felsorolások}
 A sztringek kezelése kissé nehézkesebb, mint a számoké, ugyanakkor érdemes rögzíteni, hogy melyik szám melyik játékra utal. Ezért a \texttt{játéktípusokat}, és az egyéni szabályok beállításait érdemes enumokban tárolni.
 
 Mivel a különböző játéktípusokhoz különböző egyéni szabályok tartozhatnak, így a \texttt{játékszabályoknak} játéktípusonként egy enum osztályt kell készítenünk.
 
 És mivel a pálya mezőinek is kötött, hogy milyen értékeket lehet adni, így játéktípusonként szükségünk lesz egy-egy \texttt{érték} enumra is.
 
-\Section{Frontend}
+\Section{Frontend alkalmazás részei}
+
+A \textit{frontend} ez esetben a webböngészőben futó JavaScript alkalmazást jelenti. A következő szakaszokban ezen alkalmazás részeinek és működésének a bemutatására kerül sor.
 
 \SubSection{Komponensek}
 A frontend a korábban megfogalmazott igényeket figyelembe véve az alábbi oldalakból fog állni:
@@ -552,7 +556,7 @@ Vagyis minden lekérdezésre kénytelenek vagyunk az auth tokent ellenőrizni. E
 
 Sőt mi több, még egy nagyon fontos lehetőség nyílik meg előttünk. Mivel az auth tokeneket a felhasználóhoz kötötten tároljuk, lehetőségünk nyílik a felhasználó aktív tokenjeit kilistázni, hasonlóan mint ahogy a Facebook is csinálja.
 
-Ezen felül használhatjuk még űrlapok kezelésére és állapot megőrzésére, de ez még kevéssé támogatott. \cite{session}
+Ezen felül használhatjuk még űrlapok kezelésére és állapot megőrzésére, de ez még kevéssé támogatott \cite{session}.
 
 
 

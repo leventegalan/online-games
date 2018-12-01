@@ -18,33 +18,34 @@ Az alkalmazásban megtalálható játékok:
 	\item dáma
 \end{itemize}
 
-A játék különlegességét az adja, hogy előre definiált opciókat kiválasztva a játékosok megváltoztathatják a játékszabályokat. A játék így humoros, izgalmas helyzeteket teremthet.
+A játékok különlegességét ez esetben az adja, hogy előre definiált opciókat kiválasztva a játékosok megváltoztathatják a játékszabályokat. A játék így humoros, izgalmas helyzeteket teremthet.
 
-Az oldalon csak regisztrált felhasználók játszhatnak. A regisztráció előnye, hogy a felhasználó az általa megadott névvel szerepelhet a játékban, ill. statisztikákat, rangsorokat lehet összeállítani. A felhasználó saját statisztikái segíthetik a többi játékost a megfelelő partner kiválasztásában. Pl. képet kaphatnak az ellenfél erősségéről. A rangsorok egyrészt érdekesek, másrészt meghozzák a kedvet a versengéshez, a még több játékhoz.
+Az oldalon csak regisztrált felhasználók játszhatnak. A regisztráció előnye, hogy a felhasználó az általa megadott névvel szerepelhet a játékban, illetve statisztikákat, rangsorokat lehet összeállítani. A felhasználó saját statisztikái segíthetik a többi játékost a megfelelő partner kiválasztásában, például képet kaphatnak az ellenfél erősségéről. A rangsorok egyrészt érdekesek, másrészt meghozzák a kedvet a versengéshez, a még több játékhoz.
 
-Az alkalmazás egyik menüpontjában pedig találunk majd bemutatkozó leírást, az eredeti játékok szabályzatát, leírást a lehetséges változtatásokról, és lehetőséget a kapcsolatfelvételre (email formájában) észrevételek, hibák bejelentésére. 
+Az alkalmazás egyik menüpontjában pedig találunk majd bemutatkozó leírást, az eredeti játékok szabályait, leírást a lehetséges változtatásokról, és lehetőséget a kapcsolatfelvételre (email formájában) észrevételek, hibák bejelentésére. 
 
 \Section{Amőba}
 
 \SubSection{Játékszabály}
+
 Az amőba a legismertebb és legegyszerűbb táblás játékok egyike. Általában négyzetrácsos papíron játsszák. A négyzetháló mérete lehet egyenlő a rendelkezésre álló papír méretével, de kisebb terület is kijelölhető.
 
-Menete: A játékosok felváltva helyeznek egy-egy jelet a tábla valamelyik, még üres négyzetébe. Mindenki a saját jelével játszik. (A leggyakoribb jelek az X és az O.) Az nyer, akinek sikerül saját jeleiből ötöt egyenes vonalban - vízszintesen, függőlegesen vagy átlósan - egymás mellé helyeznie. \cite{fiveinarow-rules}
+A játékosok felváltva helyeznek egy-egy jelet a tábla valamelyik, még üres négyzetébe. Mindenki a saját jelével játszik. (A leggyakoribb jelek az X és az O.) Az nyer, akinek sikerül saját jeleiből ötöt egyenes vonalban - vízszintesen, függőlegesen vagy átlósan - egymás mellé helyeznie \cite{fiveinarow-rules}.
 %forrás: http://mek.niif.hu/00000/00056/html/132.htm
 
 \SubSection{Személyre szabhatóság}
-Személyre szabhatóság szempontjából a legjobb alapanyag. Nézzük is, mi mindennel lehet feldobni!
+Személyre szabhatóság szempontjából a legjobb alapanyag. Nézzük, mi mindennel lehet érdekesebbé tenni a játékot!
 \begin{itemize}
 	
 	\item Tiltott mezők:
 	
-	A pályán olyan mezőket helyezünk el véletlen szerűen, amelyre nem rakhatunk karaktert.
+	A pályán olyan mezőket helyezünk el véletlenszerűen, amelyre nem rakhatunk karaktert.
 	\item Csapda mezők:
 	
 	A pályán olyan mezőket helyezünk el véletlen szerűen, amelyekre, ha karaktert tesznek, a mező bepirosodik pár másodpercre és a karakter nem kerül kirajzolásra (végez vele a csapda). Ez után a kör átadódik a másik játékosnak. A csapda aktiválódása után a mező semlegessé válik, tehát ugyan úgy lehet rá karaktert tenni, mint bármelyik üres mezőre.
 	\item Eltüntető karakter
 	
-	A játék kezdetekor mindkét játékos kap néhány különleges karaktert, amelyet letéve "kiradírozhat" 1 vagy 5 több karaktert a pályáról.
+	A játék kezdetekor mindkét játékos kap néhány különleges karaktert, amelyet letéve "kiradírozhat" 1 vagy több karaktert a pályáról.
 	\item Eltűnő karakterek:
 	
 	Minden 3-5 kör után mindkét játékosnak eltűnik egy-egy véletlen szerűen kiválasztott karaktere.	
@@ -55,7 +56,7 @@ Személyre szabhatóság szempontjából a legjobb alapanyag. Nézzük is, mi mi
 
 \SubSection{Tábla reprezentáció}\label{board-repr}
 
-A táblának a megrajzolása egyszerű, csak egy négyzetrácsra van szükség (továbbiakban vászon). A mezők számontartása és indexelése már érdekesebb. Esetünkben egy három dimenziós objektumban rögzítjük a mezőket. Első dimenzió reprezentálja az x sorindexet a vízszintes léptetéshez, második dimenzió az y oszlopindexet függőleges léptetéshez, a harmadik pedig a szükséges adatokat tartalmazó objektumokat jelenti. Szemléletesebb megfogalmazásban lesz egy tömbünk, ami tömböket tárol, amikben adat objektumok lesznek. Ezekben az adat objektumokban tároljuk el a mező koordinátáit a vásznon, a mező állapotát számmal jelölve, és szükség esetén bármilyen a mezőre vonatkozó információt. Egy tábla elvi megjelenítését mutatja be a \ref{fig:field-repr} ábra.
+A táblának a megrajzolása egyszerű, csak egy négyzetrácsra van szükség (továbbiakban vászon). A mezők számontartása és indexelése már érdekesebb. Esetünkben egy három dimenziós objektumban rögzítjük a mezőket. Első dimenzió reprezentálja az $x$ sorindexet a vízszintes léptetéshez, második dimenzió az $y$ oszlopindexet függőleges léptetéshez, a harmadik pedig a szükséges adatokat tartalmazó objektumokat jelenti. Szemléletesebb megfogalmazásban lesz egy tömbünk, ami tömböket tárol, amikben adat objektumok lesznek. Ezekben az adat objektumokban tároljuk el a mező koordinátáit a vásznon, a mező állapotát számmal jelölve, és szükség esetén bármilyen a mezőre vonatkozó információt. Egy tábla elvi megjelenítését mutatja be a \ref{fig:field-repr} ábra.
 
 \begin{figure}[!h]
 	\centering
@@ -75,15 +76,16 @@ A mezők állapotai az alábbiak lehetnek:
 
 Fontos különbséget tennünk az index és a koordináták között. Az index az elméleti, a koordináták a fizikai elhelyezést jelölik. Utóbbi a kirajzoláshoz szükséges.
 
-Tehát a 2. sor 3. oszlopában található mező állapotára így hivatkozhatunk: mező[3][2].állapot.
+Tehát a 2. sor 3. oszlopában található mező állapotára így hivatkozhatunk: \\
+\texttt{mező[3][2].állapot}.
 
 \SubSection{Szabály ellenőrzés}
 
 Az első dolog, amit meg kell vizsgálnunk, amikor egy játékos letesz egy karaktert, a mező állapota. Ilyenkor lekérjük a kiválasztott mező indexeit, majd ez alapján kikeressük a mező értékeinket tároló objektumból a mező állapotát. Ha a mező semleges, kirakjuk a mezőre a karaktert. Ha csapda, akkor annak megfelelően járunk el. Ha már egy játékos karakterét tartalmazza, vagy a mező tiltott, nem történik semmi, nem kerül ki a karakter, a játékosnak másik mezőt kell választani.
 
-Ha sikerült kitenni a karaktert, ellenőriznünk kell, hogy nem nyert -e a játékos. Ránézésre ugyan nyilván való, és egy szempillantás alatt látszik az eredmény, de hogy magyarázzuk el a számítógépnek?
+Ha sikerült kitenni a karaktert, ellenőriznünk kell, hogy nem nyert-e a játékos. Ránézésre ugyan nyilván való, és egy szempillantás alatt látszik az eredmény, de hogy magyarázzuk el a számítógépnek?
 
-A nyertes kombinációk kijöhetnek vízszintesen, függőlegesen, vagy átlósan (ebből kettő is van). Tehát ezeket a vonalakat kell megnézni. Ezt tehetjük úgy is, hogy végig nézzük az összes ilyen vonalat, hogy van -e nyertes kombináció a táblán. Egy nagy pálya esetén ez illetlenül erőforrás igényes lenne. Mivel minden karakter lerakást ellenőrzünk, így elég mindig csak a legutoljára letett karaktert és környezetét vizsgálni. Így a vizsgálandó területet máris lecsökkentettük egy 9*9 nagyságú négyzetre. Elkezdjük számolni a játékos karakterét, ha elérjük az öt egyforma karaktert, a játékos nyert. Ebben az esetben az ellenőrzést megszakíthatjuk, nincs már szükség a többi irány ellenőrzésére. Előfordulhat azonban, hogy az öt egyforma karakter nem egymás mellett helyezkedik el, ezért, ha olyan karakter következik, ami különbözik, a számlálót 0-ra kell állítani.
+A nyertes kombinációk kijöhetnek vízszintesen, függőlegesen, vagy átlósan (ebből kettő is van). Tehát ezeket a vonalakat kell megnézni. Ezt tehetjük úgy is, hogy végig nézzük az összes ilyen vonalat, hogy van -e nyertes kombináció a táblán. Egy nagy pálya esetén ez illetlenül erőforrás igényes lenne. Mivel minden karakter lerakást ellenőrzünk, így elég mindig csak a legutoljára letett karaktert és környezetét vizsgálni. Így a vizsgálandó területet máris lecsökkentettük egy $9 \times 9$ nagyságú négyzetre. Elkezdjük számolni a játékos karakterét, ha elérjük az öt egyforma karaktert, a játékos nyert. Ebben az esetben az ellenőrzést megszakíthatjuk, nincs már szükség a többi irány ellenőrzésére. Előfordulhat azonban, hogy az öt egyforma karakter nem egymás mellett helyezkedik el, ezért, ha olyan karakter következik, ami különbözik, a számlálót 0-ra kell állítani.
 
 Még egy szempont az ellenőrzés során a pálya széle. Ebben az esetben a vizsgálandó terület túlnyúlhat a pályán, és ebben az esetben az indexek negatívvá válhatnak, így nem létező indexű elemeket keresnénk. Ennek kiküszöbölésének egy módja, ha minden irány ellenőrzése előtt kiszámoljuk az érintett mezők kezdő és záró indexekeit a pályán, és csak ezeken iterálunk végig. Erre nehéz általános képletet adni, így én mégis megengedem a negatív indexeket, de az ilyen mezőket kihagyom az ellenőrzésből,  ill. nem nyertes mezőként kezelem.
 
@@ -115,12 +117,13 @@ Egy másik szabályvariáció szerint a dáma egyetlen lépéssel több bábut i
 
 Ha egy bábu ütéssel éri el az utolsó sort, a szabályoknak megfelelően dámává válik. Ha ebből a helyzetből – immár dámaként – újabb ütésre nyílik lehetőség, az ütéssorozat azonnal folytatható.
 
-Az nyeri meg a játékot, aki lépésképtelen helyzetbe szorítja ellenfelét (ez azt is jelentheti, hogy az ellenfélnek már nincsen bábuja, mindet leütöttük). \cite{checkers-rules}
+Az nyeri meg a játékot, aki lépésképtelen helyzetbe szorítja ellenfelét (ez azt is jelentheti, hogy az ellenfélnek már nincsen bábuja, mindet leütöttük) \cite{checkers-rules}.
 
 %forrás: http://mek.oszk.hu/00000/00056/html/133.htm
 
 \SubSection{Személyre szabhatóság}
-A dámában az egyéni változtatások mellett néhány az amőbában említettet is érdemes alkalmazni.
+
+A dámában az egyéni változtatások mellett néhány, az amőbában említettet is érdemes alkalmazni.
 \begin{itemize}
 	\item Csak dámák:
 	
