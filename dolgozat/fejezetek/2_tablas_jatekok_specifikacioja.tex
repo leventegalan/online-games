@@ -10,13 +10,7 @@
 
 \Section{Általános leírás}
 
-A projekt célja egy olyan webalkalmazás elkészítése, ahol emberek emberek ellen játszhatnak klasszikus két személyes társasjátékokat. A játék a játékok webes felületen, böngészőben, telepítés nélkül használhatóak lesznek.
-
-Az alkalmazásban megtalálható játékok:
-\begin{itemize}
-	\item amőba,
-	\item dáma
-\end{itemize}
+A projekt célja egy olyan webalkalmazás elkészítése, ahol emberek emberek ellen játszhatnak klasszikus két személyes társasjátékokat. A játék a játékok webes felületen, böngészőben, telepítés nélkül használhatóak lesznek. A dolgozat az amőba és a dáma játékok szabályrendszerének bemutatására koncentrál, illetve részletesen kifejti az amőba játék tervezését, implementációját, amely mintájára a dáma játék is elkészíthető.
 
 A játékok különlegességét ez esetben az adja, hogy előre definiált opciókat kiválasztva a játékosok megváltoztathatják a játékszabályokat. A játék így humoros, izgalmas helyzeteket teremthet.
 
@@ -34,7 +28,7 @@ A játékosok felváltva helyeznek egy-egy jelet a tábla valamelyik, még üres
 %forrás: http://mek.niif.hu/00000/00056/html/132.htm
 
 \SubSection{Személyre szabhatóság}
-Személyre szabhatóság szempontjából a legjobb alapanyag. Nézzük, mi mindennel lehet érdekesebbé tenni a játékot!
+Személyre szabhatóság szempontjából az egyik legjobb alapanyag. Nézzük, mi mindennel lehet érdekesebbé tenni a játékot!
 \begin{itemize}
 	
 	\item Tiltott mezők:
@@ -54,7 +48,20 @@ Személyre szabhatóság szempontjából a legjobb alapanyag. Nézzük, mi minde
 	A játék kezdetekor mindkét játékos kap néhány karaktert, amelyet letéve csapdát helyezhet el.	
 \end{itemize}
 
-\SubSection{Tábla reprezentáció}\label{board-repr}
+Az amőba játék tehát eredeti változatában egy teljes információs absztrakt stratégiai játék. Erre is, mint általában más táblás játékokra is igaz, hogy diszkrét állapot terük van, és egy véges játéktéren játszódnak. Az eredeti játék determinisztikus olyan tekintetben, hogy ha ismerjük mindkét játékos lépéssorozatát, akkor a játék minden esetben azonos módon fog végződni. Az amőba játék komplexitását tekintve az egyszerűbben megoldható problémák közé tartozik, aránylag korán megjelentek hozzá erős ellenfélnek számító mesterséges intelligenciával rendelkező alkalmazások. Ennek alapját az alfa-béta metszés adta, amelyhez a véges játéktér és az egyszerű szabályrendszer miatt az adott játékállapotra vonatkozóan megfelelő jósági (\textit{fitness}) függvényt lehetett adni.
+
+Az említett személyreszabható elemek több szempontból is változtatnak a játék jellegén. A tiltott mezők elhelyezésével az eredetileg homogén környezetből egy tetszőlegesen aszimmetrikus játékteret kapunk. Ezzel az adott mezők értéke már az előtt különbözni fog, hogy a játékosok egyáltalán léptek volna. A mezők számának csökkenése viszont egyben az összes lehetséges lépés számát is csökkenti, ilyen szempontból rövidebb játszmákra számíthatunk, amelyekbe gyakrabban lesz döntetlen az eredmény.
+
+A csapda mezők elhelyezkedésével a játék már nem lesz teljes információs. Az adott játékos hátrányba kerülhet azzal, hogy egy csapda mezőt választ, amelyek helyét viszont nem ismeri. Feltételezve, hogy ezek minden játszma során véletlenszerűen helyezkednek majd el, a játék így már nem determinisztikus lesz. Mivel egy csapda csak egy lépés hátrányt jelent, és mindkét játékost egyaránt érinti, ezért a játék kiegyensúlyozott tud maradni. A játszmák hossza a csapda mezőknek köszönhetően alapvetően növekedne, viszont néhány érdekes szituációban megakadályozza, hogy az egyik játékos kivédje a másik támadását, így tulajdonképpen rövidebb játszmát fog eredményezni. Annak értékelése, hogy az esetek száma milyen, tehát hogy a játszmák inkább rövidebbek, vagy hosszabbak lennének összességében, további külön vizsgálatot igényelne.
+
+Az eltüntető karakterek megtartják a játék teljes információs és determinisztikus jellegét, viszont jelentős különbséget jelentenek abból a szempontból, hogy segítségükkel a játék az adott játékállapotból visszajuthat egy korábbi játékállapotra. A játék hosszát mindenképpen növeli, pontosan annyival, amennyi eltüntető karakter felhasználásra kerül.
+
+Az eltűnő karakterek szintén egy nem determinisztikus vonásként jelennek meg a játékban. A véletlenszerűen eltűnő karakterek a stratégiák alkalmazását mindenképpen nehezítik. Feltételezve, hogy a mezők az értéküktől függetlenül tünhetnek el, és mindkét játékost érintik, a játék így kiegyensúlyozott tud maradni.
+
+Az elhelyezhető csapdák az előbbiekben említett determinisztikus jelleget ötvözik azzal, hogy a játék ezzel a kiegészítéssel már nem lesz teljes információs. Azzal, hogy mindkét játékos ugyanannyi csapdát helyezhet le, a játék kiegyensúlyozottsága ez esetben sem sérül.
+
+\SubSection{Tábla reprezentáció}
+\label{board-repr}
 
 A táblának a megrajzolása egyszerű, csak egy négyzetrácsra van szükség (továbbiakban vászon). A mezők számontartása és indexelése már érdekesebb. Esetünkben egy három dimenziós objektumban rögzítjük a mezőket. Első dimenzió reprezentálja az $x$ sorindexet a vízszintes léptetéshez, második dimenzió az $y$ oszlopindexet függőleges léptetéshez, a harmadik pedig a szükséges adatokat tartalmazó objektumokat jelenti. Szemléletesebb megfogalmazásban lesz egy tömbünk, ami tömböket tárol, amikben adat objektumok lesznek. Ezekben az adat objektumokban tároljuk el a mező koordinátáit a vásznon, a mező állapotát számmal jelölve, és szükség esetén bármilyen a mezőre vonatkozó információt. Egy tábla elvi megjelenítését mutatja be a \ref{fig:field-repr} ábra.
 
@@ -90,34 +97,46 @@ A nyertes kombinációk kijöhetnek vízszintesen, függőlegesen, vagy átlósa
 Még egy szempont az ellenőrzés során a pálya széle. Ebben az esetben a vizsgálandó terület túlnyúlhat a pályán, és ebben az esetben az indexek negatívvá válhatnak, így nem létező indexű elemeket keresnénk. Ennek kiküszöbölésének egy módja, ha minden irány ellenőrzése előtt kiszámoljuk az érintett mezők kezdő és záró indexekeit a pályán, és csak ezeken iterálunk végig. Erre nehéz általános képletet adni, így én mégis megengedem a negatív indexeket, de az ilyen mezőket kihagyom az ellenőrzésből,  ill. nem nyertes mezőként kezelem.
 
 
-\Section{Dáma (hagyományos)}
-
-% TODO képeket beszúrni drive-ról
-% TODO képekre utalást szövegben is átnézni (pl. számozás miatt)
+\Section{Klasszikus dáma}
+A dáma a világon az egyik legkedveltebb, két személyes, táblás társasjáték, amelyet $8 \times $8-as vagy $10 \times 10$-es méretű négyzetrácsos táblán játszanak lapos, korong alakú bábukkal. A táblát gyakran szokták sakk táblával és a sakk bábuk gyalogjaival helyettesíteni.
 
 \SubSection{Játékszabály}
-A dámajáték a világon mindenütt elterjedt, közismert táblás játék. „Kockás” (négyzetrácsos) táblán játsszák, lapos, korong alakú bábukkal. Sokszor sakktáblát és sakkfigurákat használnak, de elterjedt a sakktáblánál nagyobb, 10x10-es tábla is.
 
-A bábukat változattól függően két vagy három sorban kell felállítani, de az ellenfelek korongjai között legalább két sort üresen kell hagyni.
+A játék előtt a bábukat úgy kell elhelyezni, hogy játékosonként 2 vagy 3 sorban a sötét mezőkön helyezkedjenek el, úgy, hogy a sor összes sötét mezőjét kitöltsék. A játékot a fekete kezdi.
 
-A hagyományos dámajátékban a sakkal ellentétben a sötét kezd, a játékosok itt is felváltva lépnek. Az egyszerű dámabábu mindig csak egyet léphet előre az ellenfél felé, és csakis átlósan, azonos színű mezőre (úgy tehát, ahogy a gyalog üt a sakkban). Az f3-on álló bábu tehát az e4 és g4 mezőkre léphet.
+A kezdetben felállított bábukkal csak átlósan előre léphetünk, azonos színű mezőre, \ref{fig:checkers_board1} ábra. Ezt a lépés rendszert tovább fejleszthetjük azon bábuk esetében, amelyeket sikerül átvinni a tábla túlsó végébe. Ekkor a bábú dámává válik. A dámák abban fejlettebbek, hogy léphetnek és üthetnek hátrafelé is.
 
-Ha azon a mezőn, ahová a bábu léphetne, az ellenfél egy bábuja áll, és azonos irányban még egy mezőt tovább haladva üres mező van, akkor ütéskényszer van: az ellenfél bábuját átugorva a mögötte lévő üres mezőre lépünk, az ellenfél bábuját pedig levesszük. Ilyen ütéshelyzet látható a 2. ábrán. A szabályokból értelemszerűen következik, hogy nem lehet leütni egy a tábla szélén álló bábut. A dámajátékban hagyományosan ütéskényszer van, azaz ha egy játékos tud ütni, akkor kötelező ütnie. Ha több ütési lehetősége is van, szabadon dönthet, hogy melyiket választja. Ezt a szabályt azonban nem mindig alkalmazzák.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{kepek/checkers_board.png}
+	\caption{\textit{Kezdő tábla és lépés egy bábúval}}
+	\label{fig:checkers_board1}
+\end{figure}
 
-Ha az ütés után a bábu ismét ütéshelyzetbe kerül, azt az ütést is végre kell hajtani, így ütéssorozat jön létre. Az ütéssorozat addig folytatható (ill. ütéskényszer esetén folytatandó), amíg leüthető bábu van. A 3. ábrán látható táblarészleten sötét egy két ütésből álló ütéssorozatot hajthat végre az X-szel jelölt mezőkre lépve, világos mindkét bábuját leütve.
+Ha egy bábú útjába kerül egy ellenséges bábú, (tehát előtte átlósan található egy), és a bábú mögött szabadon van egy hely, ütéskényszerbe kerül. Tehát át kell ugornia, és levennie az átugrott bábút. Ha az ugrás után ismét ütéshelyzetbe kerül, a következő bábút is le kell vennie. Ezt pedig addig ismétli, amíg ütési lehetősége van. Ez \textit{ütéssorozatnak} nevezzük, \ref{fig:checkers_board2} ábra. Ha a játékosnak több ütési lehetősége is van, akkor szabadon eldöntheti, melyik ütést hajtja végre.
 
-Az a bábu, amelyik eléri a tábla szemközti sorát, dámává változik (az ábrákon a kis koronával megjelölt korongok jelzik a dámákat). A dámák szabadabban mozoghatnak, mint az egyszerű bábuk: minden dáma léphet és üthet hátrafelé is (ellenkező esetben nem is tudná elhagyni a szélső sort).
-Elterjedt, bár nem mindig alkalmazott szabály az is, hogy a dáma „nekifutásból” üthet. Erre is három variáció van:
-az ütést megelőzően, a leütendő bábu előtt tetszőleges számú üres mezőt átugorhat;
-az ütést követően, a leütendő bábu mögött tetszőleges számú üres mezőt átugorhat;
-az előző kettő kombinációja.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{kepek/checkers_board2.png}
+	\caption{\textit{Kezdő tábla és lépés egy bábúval}}
+	\label{fig:checkers_board2}
+\end{figure}
 
-A baloldalt látható 4. ábrán az 1. esetben a sötét dáma az X-szel jelölt c6-os mezőre léphet, a 3. esetben ezen felül léphet a fekete körökkel jelölt b7-es és a8-as mezőkre is.
-Egy másik szabályvariáció szerint a dáma egyetlen lépéssel több bábut is le tud ütni akkor is, ha azok között nincs üres mező. Egy ilyen helyzet látható az 5. ábrán. Ennek a szabálynak az alkalmazása független az előző, nekifutásos szabálytól. Ha például az ütés utáni „továbbfutás” és több-bábus ütés egyaránt engedélyezett, a sötét dáma a b7 vagy a8 mezőkre is léphet, mindhárom világos bábu leütésével.
+Előfordulhat, hogy egy bábú az ütéssorozat részeként ér az utolsó sorba, ekkor dámává válik, és ha dámaként újabb ütésre van lehetősége, azt is el kell végeznie.
 
-Ha egy bábu ütéssel éri el az utolsó sort, a szabályoknak megfelelően dámává válik. Ha ebből a helyzetből – immár dámaként – újabb ütésre nyílik lehetőség, az ütéssorozat azonnal folytatható.
+\SubSection{Variációk}
 
-Az nyeri meg a játékot, aki lépésképtelen helyzetbe szorítja ellenfelét (ez azt is jelentheti, hogy az ellenfélnek már nincsen bábuja, mindet leütöttük) \cite{checkers-rules}.
+Alkalmazhatunk a játékban egy olyan szabályt, amely szerint a játékos \textit{"nekifutásból" üthet}. Erre 3 változat létezik:
+
+\begin{itemize}
+	\item Az ütés előtt, a leütött bábu előtt tetszőleges számú üres mezőt átugorhat.
+	\item Az ütés után, a leütött bábu mögött tetszőleges számú üres mezőt átugorhat.
+	\item Az előző két módszer kombinációja.
+\end{itemize}
+
+\SubSection{Nyertes}
+
+A játékot az nyeri meg, aki az ellenfelét lépésképtelen helyzetbe hozza, vagy az ellenfél össze bábúját leütötte \cite{checkers-rules}.
 
 %forrás: http://mek.oszk.hu/00000/00056/html/133.htm
 
@@ -141,4 +160,5 @@ A dámában az egyéni változtatások mellett néhány, az amőbában említett
 	A játék kezdetekor mindkét játékos kap néhány karaktert, amelyet letéve csapdát helyezhet el.	
 \end{itemize}
 
+Ahogy az amőbánál, úgy a dáma játék esetében is megjelennek így nem determinisztikus vonások a szabályrendszerben. A tábla mérete véges marad, viszont a lépés irányára vonatkozó szabályok lazításával a játszmák hossza is változik. A csapdák elhelyezésének a lehetőségével a teljes információs jellege változik a játéknak.
 

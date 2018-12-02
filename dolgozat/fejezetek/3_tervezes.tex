@@ -176,7 +176,7 @@ Sikertelen művelet esetén hibaüzenet küld a felhasználónak (\ref{lst:user-
 
 % MATCH
 
-\SubSection{match}
+\SubSection{/match}
 \texttt{GET}: Ellenőrzi a felhasználót, majd lekérdezi és válaszként elküldi a várakozó meccsek (kihívások) adatainak listáját (\ref{lst:match-list} ábra).
 
 \lstinputlisting[caption={\textit{/match/list kérés és válasz minta}}, label={lst:match-list}]{kodok/api/match-list.json}
@@ -192,7 +192,7 @@ Sikertelen művelet esetén hibaüzenet küld a felhasználónak (\ref{lst:match
 
 \lstinputlisting[caption={\textit{/match/delete kérés és válasz minta}}, label={lst:match-delete}]{kodok/api/match-delete.json}
 
-\SubSection{match/start}
+\SubSection{/match/start}
 \texttt{POST}: Akkor hívódik meg, amikor egy játékos elfogad egy kihívást. Megkapja az ezidáig várakozó játszma és a játékos azonosítóját. Lekéri a várakozó játék adatait, létre hozz egy aktív játszmát, amit elment az adatbázisban is, majd törli a várakozó játékot. Ha bármelyik játékosnak volt aktív kihívása, azt törli az adatbázisból.
 Sikeres mentés esetén megerősítésképpen visszaküldi a meccs adatait tartalmazó objektumot.
 Sikertelen művelet esetén hibaüzenetet küld a felhasználónak (\ref{lst:match-start} ábra).
@@ -228,17 +228,17 @@ Siker esetén elküldi a kiértékelés eredményét, hogy volt-e nyerés, és s
 
 % STATS
 
-\SubSection{stats/global}
+\SubSection{/stats/global}
 \texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-global} ábra).
 
 \lstinputlisting[caption={\textit{/stats/global kérés és válasz minta}}, label={lst:stats-global}]{kodok/api/stats-global.json}
 
-\SubSection{stats/globalbygametype}
+\SubSection{/stats/globalbygametype}
 \texttt{GET}: Lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-globalbygametype} ábra).
 
 \lstinputlisting[caption={\textit{/stats/globalbygametype kérés és válasz minta}}, label={lst:stats-globalbygametype}]{kodok/api/stats-globalbygametype.json}
 
-\SubSection{stats/personal}
+\SubSection{/stats/personal}
 \texttt{GET}: Megkapja a felhasználó azonosítóját, majd lekéri a szükséges adatokat az adatbázisból, majd összeállítja és visszaküldi a rendezett ranglistát (\ref{lst:stats-personal} ábra).
 
 \lstinputlisting[caption={\textit{/stats/personal kérés és válasz minta}}, label={lst:stats-personal}]{kodok/api/stats-personal.json}
